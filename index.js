@@ -45,7 +45,16 @@ bot.on('text', async (ctx) => {
 })
 
 
-bot.launch()
+if (process.env.DEVELOPMENT)
+    bot.launch()
+else{
+    bot.launch({
+        webhook: {
+            domain: process.env.WEBHOOK_URL,
+            port: process.env.WEBHOOK_PORT
+        }
+    })
+}
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
