@@ -45,9 +45,12 @@ bot.on('text', async (ctx) => {
 })
 
 
-if (process.env.DEVELOPMENT)
+if (process.env.DEVELOPMENT){
     bot.launch()
-else{
+    // Enable graceful stop
+    process.once('SIGINT', () => bot.stop('SIGINT'))
+    process.once('SIGTERM', () => bot.stop('SIGTERM')) 
+}else{
     bot.launch({
         webhook: {
             domain: process.env.WEBHOOK_URL,
@@ -55,7 +58,3 @@ else{
         }
     })
 }
-
-// Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM')) 
