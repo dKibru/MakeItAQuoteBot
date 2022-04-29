@@ -33,7 +33,7 @@ export  async function addTextOnImage(text, img, avatarUrl, username) {
         <text x="50%" y="50%" text-anchor="middle" class="title">${username}</text>
       </svg>
       `
-      let avatar = 'assets/kkk.png'
+      let avatar = 'assets/anonymous.png'
       if(avatarUrl){
         avatar = await downloadFileToBuffer(avatarUrl)
       }
