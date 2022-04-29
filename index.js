@@ -10,6 +10,7 @@ bot.command('start', (ctx) => {
   ctx.reply('Forward or send me a quote')
 })
 
+const backgroundImgPath = "assets/bg.png"
 
 bot.on('text', async (ctx) => {
   let username = ctx.message.from.username
@@ -32,9 +33,9 @@ bot.on('text', async (ctx) => {
   let theQuotePic = null
   if(firstProfP?.length){
     const profPicImage = await ctx.telegram.getFileLink(firstProfP[2].file_id)
-    theQuotePic = await addTextOnImage(text, "assets/bot.png", profPicImage.href, username)
+    theQuotePic = await addTextOnImage(text, backgroundImgPath, profPicImage.href, username)
   }else{
-    theQuotePic = await addTextOnImage(text, "assets/bot.png", null, username)
+    theQuotePic = await addTextOnImage(text, backgroundImgPath, null, username)
   }
   
   ctx.reply(`Generating your quote ...`)
