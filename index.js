@@ -47,9 +47,6 @@ bot.on('text', async (ctx) => {
 
 if (process.env.DEVELOPMENT){
     bot.launch()
-    // Enable graceful stop
-    process.once('SIGINT', () => bot.stop('SIGINT'))
-    process.once('SIGTERM', () => bot.stop('SIGTERM')) 
 }else{
     bot.launch({
         webhook: {
@@ -59,3 +56,7 @@ if (process.env.DEVELOPMENT){
         }
     })
 }
+
+// Enable graceful stop
+process.once('SIGINT', () => bot.stop('SIGINT'))
+process.once('SIGTERM', () => bot.stop('SIGTERM')) 
