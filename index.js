@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { Telegraf } from 'telegraf'
-import {addTextOnImage} from './imageManipulate.js'
+import {addTextOnImage} from './imageManipulator.js'
 
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
