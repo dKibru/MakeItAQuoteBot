@@ -54,7 +54,8 @@ if (process.env.DEVELOPMENT){
     bot.launch({
         webhook: {
             domain: process.env.WEBHOOK_URL,
-            port: process.env.WEBHOOK_PORT
+            port: process.env.WEBHOOK_PORT,
+            host: '0.0.0.0'
         }
     })
 }
