@@ -30,6 +30,7 @@ bot.on('text', async (ctx) => {
   let firstProfP = images.photos[0]
 
   const forward_from = ctx.update.message.forward_from
+  const forward_sender_name = ctx.update.message.forward_sender_name
   // forward_sender_name
   if(forward_from){
     let un = forward_from.username ? `@${forward_from.username}` : null
@@ -38,6 +39,9 @@ bot.on('text', async (ctx) => {
     console.log({username})
     images = await ctx.tg.getUserProfilePhotos(forward_from.id)
     firstProfP = images.photos[0]
+  }else if(forward_sender_name){
+    username = forward_sender_name
+    firstProfP= null
   }
   let theQuotePic = null
   if(firstProfP?.length){
