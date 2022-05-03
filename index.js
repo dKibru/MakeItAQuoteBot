@@ -7,12 +7,17 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 
 
 bot.command('start', (ctx) => {
-  ctx.reply('Forward or send me a quote')
+  try {
+    ctx.reply('Forward or send me a quote')
+  } catch (error) {
+    console.log("???????")
+  }
 })
 
 const backgroundImgPath = "assets/bg.png"
 
 bot.on('text', async (ctx) => {
+  console.log({ctx : ctx.update.message})
   let username = ctx.message.from.username
   let text = ctx.message.text
   if(username) 
@@ -24,11 +29,19 @@ bot.on('text', async (ctx) => {
 
   let firstProfP = images.photos[0]
 
-  if(ctx.message.forward_from){
-    username = `@${ctx.message.forward_from.username}` || `${ctx.message.forward_from.first_name} ${ctx.message.forward_from.last_name ? ctx.message.forward_from.last_name : ''}` 
-    
-    images = await ctx.tg.getUserProfilePhotos(ctx.message.forward_from.id)
+  const forward_from = ctx.update.message.forward_from
+  const forward_sender_name = ctx.update.message.forward_sender_name
+  // forward_sender_name
+  if(forward_from){
+    let un = forward_from.username ? `@${forward_from.username}` : null
+    un = un ? un : `${forward_from.first_name} ${forward_from.last_name ? forward_from.last_name : ''}`
+    username = un
+    console.log({username})
+    images = await ctx.tg.getUserProfilePhotos(forward_from.id)
     firstProfP = images.photos[0]
+  }else if(forward_sender_name){
+    username = forward_sender_name
+    firstProfP= null
   }
   let theQuotePic = null
   if(firstProfP?.length){
@@ -38,10 +51,14 @@ bot.on('text', async (ctx) => {
     theQuotePic = await addTextOnImage(text, backgroundImgPath, null, username)
   }
   
-  ctx.reply(`Generating your quote ...`)
-  ctx.replyWithPhoto({
-    source: theQuotePic
-  })
+  try {
+    ctx.reply(`Generating your quote ...`)
+    ctx.replyWithPhoto({
+      source: theQuotePic
+    })
+  } catch (error) {
+    console.error({error})
+  }
 })
 
 
